@@ -1,0 +1,18 @@
+[project]
+name = "exa-manager"
+version = "0.1.0"
+description = "Addon Untuk Aplikasi Otomax: Mengatur dan Mengelola Update produk secara otomatis"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.115.12",
+    "python-dotenv>=1.1.0",
+    "sqlalchemy>=2.0.40",
+    "sqlmodel>=0.0.24",
+    "pyodbc>=5.0.1",               # Untuk koneksi SQL Server
+    "colorama>=0.4.6",
+    "pytest>=8.3.5",
+]
+
+[project.scripts]
+exa-manager = "app.main:start" # Entry point langsung ke main.py
