@@ -1,20 +1,34 @@
 """
-Entry point untuk aplikasi.
+Entry point utama aplikasi Exa Manager.
 
-Menginisialisasi konfigurasi, logger, dan memulai aplikasi.
+Modul ini menyediakan fungsi untuk memulai aplikasi dengan uvicorn.
 """
 
-from app.app_config import AppConfig
-from app.logger import setup_logger
+import uvicorn
 
-# Inisialisasi konfigurasi
-config = AppConfig()
+from app.config import get_settings
 
-# Setup logger
-logger = setup_logger()
+
+def start():
+    """
+    Entry point utama aplikasi.
+
+    Membuat aplikasi FastAPI dan menjalankannya dengan uvicorn.
+    """
+    # Mendapatkan pengaturan aplikasi
+    settings = get_settings()
+
+    # Jalankan server dengan uvicorn
+    uvicorn.run(
+        "app.app:create_app",  # Menggunakan factory function sebagai target
+        factory=True,  # Memberi tahu uvicorn bahwa ini adalah factory function
+        host=settings.server.host,
+        port=settings.server.port,
+        reload=settings.server.reload,
+        workers=settings.server.workers,
+        log_level=settings.server.log_level,
+    )
+
 
 if __name__ == "__main__":
-    logger.info("Aplikasi dimulai...")
-    logger.info(
-        f"Server berjalan di {config.get('server', 'ip')}:{config.get('server', 'port')}"
-    )
+    start()
